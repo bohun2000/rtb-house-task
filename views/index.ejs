@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programmatic Tech Solutions - Development Test</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <button id="reportBtn">View Report</button>
+    <div id="content">
+        <% for(let i = 1; i <= 20; i++) { %>
+            <p>Paragraph <%= i %>:</p>
+            <% for(let j = 1; j <= 20; j++) { %>
+                <span>Line <%= j %>: </span><%= Math.random().toString(36).substring(2, 7) %><br>
+            <% } %>
+            <% if(i === 10) { %>
+                <img id="userAvatar" src="https://placehold.co/150x150/EEE/31343C?font=comic-sans&text=RTB%20House" alt="User Avatar">
+            <% } %>
+        <% } %>
+    </div>
+    <script>
+        let userId = '<%= userId %>';
+        
+        window.addEventListener('load', async () => {
+            const storedUserId = sessionStorage.getItem('userId');
+            if (!storedUserId) {
+                try {
+                    const response = await fetch('/api/user', { method: 'POST' });
+                    const data = await response.json();
+                    userId = data.userId;
+                    sessionStorage.setItem('userId', userId);
+                } catch (error) {
+                    console.error('Error fetching user ID:', error);
+                }
+            } else {
+                userId = storedUserId;
+            }
+        });
+    </script>
+    <script src="/script.js"></script>
+</body>
+</html>
